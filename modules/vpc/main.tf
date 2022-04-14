@@ -1,22 +1,35 @@
 resource "aws_vpc" "main" {
   cidr_block = var.cidr_block
-  # enable_dns_hostnames = true
+  enable_dns_hostnames = true
 
   tags = {
     Name = "main-vpc"
   }
 }
 
-resource "aws_subnet" "subnet" {
+resource "aws_subnet" "subnet_a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.0.0/24"
   availability_zone = "us-east-1a"
-
-  # Enabling automatic public IP assignment on instance launch!
-  # map_public_ip_on_launch = var.map_public_ip_on_launch
+  map_public_ip_on_launch = true
 
   tags = {
-    Name = "default-subnet"
+    Name = "public-subnet-a"
+  }
+
+  depends_on = [
+    aws_vpc.main,
+  ]
+}
+
+resource "aws_subnet" "subnet_b" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1b"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "public-subnet-b"
   }
 
   depends_on = [
@@ -53,15 +66,3 @@ resource "aws_route_table" "public-subnet-rt" {
     aws_internet_gateway.igw,
   ]
 }
-
-# data "aws_subnets" "vpc_subnets" {
-#   filter {
-#     name   = "vpc-id"
-#     values = [aws_vpc.main.id]
-#   }
-# }
-#
-# data "aws_subnet" "vpc_subnets" {
-#   for_each = toset(data.aws_subnets.vpc_subnets.ids)
-#   id       = each.value
-# }

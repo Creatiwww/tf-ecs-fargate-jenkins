@@ -9,7 +9,3 @@ output "aws_route_table_id" {
 output "aws_internet_gateway_id" {
   value = aws_internet_gateway.igw.id
 }
-
-output "vpc_subnet_ids" {
-  value = [aws_subnet.subnet.*.id]
-}
