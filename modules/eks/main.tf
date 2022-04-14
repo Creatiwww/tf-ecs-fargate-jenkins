@@ -81,6 +81,7 @@ resource "aws_eks_node_group" "node" {
   node_group_name = "node_jenkins"
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = [for s in var.vpc_subnets : s.id]
+  instance_types  = ["t3.micro"]
 
   scaling_config {
     desired_size = var.nodes_desired_size
@@ -94,6 +95,6 @@ resource "aws_eks_node_group" "node" {
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
-    aws_eks_cluster.aws_eks,
+    # aws_eks_cluster.aws_eks,
   ]
 }
