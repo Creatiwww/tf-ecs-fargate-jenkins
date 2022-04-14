@@ -11,5 +11,5 @@ output "aws_internet_gateway_id" {
 }
 
 output "vpc_subnet_ids" {
-  value = [aws_subnet.subnet.*.id]
+  value = [data.aws_subnet.vpc_subnets.*.id]
 }

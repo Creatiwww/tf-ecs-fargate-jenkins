@@ -54,14 +54,14 @@ resource "aws_route_table" "public-subnet-rt" {
   ]
 }
 
-# data "aws_subnets" "vpc_subnets" {
-#   filter {
-#     name   = "vpc-id"
-#     values = [aws_vpc.main.id]
-#   }
-# }
-#
-# data "aws_subnet" "vpc_subnets" {
-#   for_each = toset(data.aws_subnets.vpc_subnets.ids)
-#   id       = each.value
-# }
+data "aws_subnets" "vpc_subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [aws_vpc.main.id]
+  }
+}
+
+data "aws_subnet" "vpc_subnets" {
+  for_each = toset(data.aws_subnets.vpc_subnets.ids)
+  id       = each.value
+}
