@@ -18,10 +18,24 @@ module "vpc" {
   cidr_block = local.vpc_cidr_block
 }
 
+
+
+data "aws_subnets" "subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [module.vpc.aws_vpc_id]
+  }
+}
+
+data "aws_subnet" "subnet" {
+  for_each = toset(data.aws_subnets.subnets.ids)
+  id       = each.value
+}
+
 module "eks_cluster" {
   source = "../../modules/eks"
 
-  vpc_subnets        = module.vpc.vpc_subnet_ids
+  vpc_subnets = data.aws_subnet.subnet
   nodes_desired_size = var.nodes_desired_size
   nodes_max_size     = var.nodes_max_size
   nodes_min_size     = var.nodes_min_size
