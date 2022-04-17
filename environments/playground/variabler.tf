@@ -12,3 +12,8 @@ variable "nodes_min_size" {
   description = "Min amount of K8s nodes in EKS cluster"
   type        = number
 }
+
+variable "instance_types" {
+  description = "EKS node instance type"
+  type        = list(string)
+}

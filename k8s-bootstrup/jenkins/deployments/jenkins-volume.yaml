@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-pv
+  namespace: jenkins
+spec:
+  storageClassName: gp2
+  accessModes:
+  - ReadWriteOnce
+  capacity: 
+    storage: 10Gi
+  persistentVolumeReclaimPolicy: Retain
+# It’s worth noting that, in the above spec, hostPath uses the /data/jenkins-volume/ of your node to emulate network-attached storage.
+# This approach is only suited for development and testing purposes. For production, you should provide a network resource like a
+# Google Compute Engine persistent disk, or an Amazon Elastic Block Store volume.
+  hostPath:
+    path: /data/jenkins-volume/

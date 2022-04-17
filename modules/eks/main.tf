@@ -81,7 +81,7 @@ resource "aws_eks_node_group" "node" {
   node_group_name = "node_jenkins"
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = [for s in var.vpc_subnets : s.id]
-  instance_types  = ["t3.micro"]
+  instance_types  = var.instance_types
 
   scaling_config {
     desired_size = var.nodes_desired_size

@@ -34,6 +34,7 @@ module "eks_cluster" {
   source = "../../modules/eks"
 
   vpc_subnets        = data.aws_subnet.subnet
+  instance_types     = var.instance_types
   nodes_desired_size = var.nodes_desired_size
   nodes_max_size     = var.nodes_max_size
   nodes_min_size     = var.nodes_min_size

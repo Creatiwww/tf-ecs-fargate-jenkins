@@ -17,9 +17,9 @@ resource "aws_subnet" "subnet_a" {
     Name = "public-subnet-a"
   }
 
-  depends_on = [
-    aws_vpc.main,
-  ]
+  # depends_on = [
+  #   aws_vpc.main,
+  # ]
 }
 
 resource "aws_subnet" "subnet_b" {
@@ -32,9 +32,9 @@ resource "aws_subnet" "subnet_b" {
     Name = "public-subnet-b"
   }
 
-  depends_on = [
-    aws_vpc.main,
-  ]
+  # depends_on = [
+  #   aws_vpc.main,
+  # ]
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -44,9 +44,9 @@ resource "aws_internet_gateway" "igw" {
     Name = "main-vpc-ig"
   }
 
-  depends_on = [
-    aws_vpc.main,
-  ]
+  # depends_on = [
+  #   aws_vpc.main,
+  # ]
 }
 
 resource "aws_route_table" "public-subnet-rt" {

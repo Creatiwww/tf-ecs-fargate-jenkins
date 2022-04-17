@@ -3,6 +3,12 @@ variable "vpc_subnets" {
   type        = map(any)
 }
 
+variable "instance_types" {
+  description = "EKS node instance type"
+  type        = list(string)
+}
+
+
 variable "nodes_desired_size" {
   description = "Amount of K8s nodes in EKS cluster"
   type        = number
