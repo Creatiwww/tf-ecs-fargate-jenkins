@@ -8,32 +8,21 @@ terraform {
   }
 }
 
-locals {
-  vpc_cidr_block = "10.0.0.0/16"
-}
-
 module "vpc" {
   source = "../../modules/vpc"
 
-  cidr_block = local.vpc_cidr_block
+  vpc_cidr_block = var.vpc_cidr_block
+  subnets_count  = var.subnets_count
 }
 
-data "aws_subnets" "subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [module.vpc.aws_vpc_id]
-  }
-}
-
-data "aws_subnet" "subnet" {
-  for_each = toset(data.aws_subnets.subnets.ids)
-  id       = each.value
+data "aws_subnet_ids" "subnet" {
+  vpc_id = module.vpc.aws_vpc_id
 }
 
 module "eks_cluster" {
-  source = "../../modules/eks"
-
-  vpc_subnets        = data.aws_subnet.subnet
+  source             = "../../modules/eks"
+  count              = var.subnets_count
+  vpc_subnets        = tolist(data.aws_subnet_ids.subnet.ids)[count.index]
   instance_types     = var.instance_types
   nodes_desired_size = var.nodes_desired_size
   nodes_max_size     = var.nodes_max_size

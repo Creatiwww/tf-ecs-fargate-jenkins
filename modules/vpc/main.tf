@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  cidr_block           = var.cidr_block
+  cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
 
   tags = {
@@ -7,34 +7,15 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "subnet_a" {
+resource "aws_subnet" "main" {
+  count                   = var.subnets_count
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.0.0/24"
-  availability_zone       = "us-east-1a"
+  cidr_block              = cidrsubnet(var.vpc_cidr_block, 8, count.index)
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public-subnet-a"
+    Name = "public-subnet-${count.index + 1}"
   }
-
-  # depends_on = [
-  #   aws_vpc.main,
-  # ]
-}
-
-resource "aws_subnet" "subnet_b" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1b"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "public-subnet-b"
-  }
-
-  # depends_on = [
-  #   aws_vpc.main,
-  # ]
 }
 
 resource "aws_internet_gateway" "igw" {
