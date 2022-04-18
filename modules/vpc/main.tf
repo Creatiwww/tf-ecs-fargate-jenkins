@@ -47,3 +47,22 @@ resource "aws_route_table" "public-subnet-rt" {
     aws_internet_gateway.igw,
   ]
 }
+
+
+
+# data "aws_subnets" "example" {
+#   filter {
+#     name   = "vpc-id"
+#     values = [aws_vpc.main.id]
+#   }
+# }
+#
+# data "aws_subnet" "example" {
+#   count              = var.subnets_count
+#   vpc_subnets        = var.vpc_subnets[count.index]
+# }
+#
+# output "subnet_id" {
+#   # value = [for s in data.aws_subnet.example : s.id]
+
+# }

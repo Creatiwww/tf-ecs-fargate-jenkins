@@ -8,7 +8,6 @@ variable "instance_types" {
   type        = list(string)
 }
 
-
 variable "nodes_desired_size" {
   description = "Amount of K8s nodes in EKS cluster"
   type        = number
