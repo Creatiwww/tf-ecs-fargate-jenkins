@@ -10,7 +10,7 @@ spec:
     - host: hostname.mydomain.com
       http:
         paths:
-          - path: /
+          - path: /testapp
             pathType: Prefix
             backend:
               service:
