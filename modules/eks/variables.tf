@@ -1,6 +1,6 @@
 variable "vpc_subnets" {
   description = "List of subnets defined in VPC"
-  type        = map(any)
+  type        = list(any)
 }
 
 variable "instance_types" {

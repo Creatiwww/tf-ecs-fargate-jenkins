@@ -15,14 +15,13 @@ module "vpc" {
   subnets_count  = var.subnets_count
 }
 
-data "aws_subnet_ids" "subnet" {
-  vpc_id = module.vpc.aws_vpc_id
-}
+# output "subnet_ids" {
+#   value = module.vpc.subnet_ids
+# }
 
 module "efs" {
   source             = "../../modules/efs"
-  count              = var.subnets_count
-  vpc_subnets        = tolist(data.aws_subnet_ids.subnet.ids)[count.index]
+  vpc_subnets        = module.vpc.subnet_ids
   vpc_id             = module.vpc.aws_vpc_id
   vpc_cidr_block     = var.vpc_cidr_block
   subnets_count      = var.subnets_count
@@ -30,8 +29,8 @@ module "efs" {
 
 module "eks_cluster" {
   source             = "../../modules/eks"
-  count              = var.subnets_count
-  vpc_subnets        = tolist(data.aws_subnet_ids.subnet.ids)[count.index]
+  # count              = var.subnets_count
+  vpc_subnets        = module.vpc.subnet_ids
   instance_types     = var.instance_types
   nodes_desired_size = var.nodes_desired_size
   nodes_max_size     = var.nodes_max_size

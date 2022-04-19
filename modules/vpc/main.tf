@@ -7,10 +7,13 @@ resource "aws_vpc" "main" {
   }
 }
 
+data "aws_availability_zones" "available" {}
+
 resource "aws_subnet" "main" {
   count                   = var.subnets_count
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.vpc_cidr_block, 8, count.index)
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   map_public_ip_on_launch = true
 
   tags = {
@@ -25,9 +28,9 @@ resource "aws_internet_gateway" "igw" {
     Name = "main-vpc-ig"
   }
 
-  # depends_on = [
-  #   aws_vpc.main,
-  # ]
+  depends_on = [
+    aws_vpc.main,
+  ]
 }
 
 resource "aws_route_table" "public-subnet-rt" {
@@ -48,21 +51,9 @@ resource "aws_route_table" "public-subnet-rt" {
   ]
 }
 
-
-
-# data "aws_subnets" "example" {
-#   filter {
-#     name   = "vpc-id"
-#     values = [aws_vpc.main.id]
-#   }
-# }
-#
-# data "aws_subnet" "example" {
-#   count              = var.subnets_count
-#   vpc_subnets        = var.vpc_subnets[count.index]
-# }
-#
-# output "subnet_id" {
-#   # value = [for s in data.aws_subnet.example : s.id]
-
-# }
+data "aws_subnets" "subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [aws_vpc.main.id]
+  }
+}

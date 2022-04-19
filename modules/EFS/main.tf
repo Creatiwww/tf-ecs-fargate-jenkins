@@ -36,8 +36,7 @@ resource "aws_efs_file_system" "eks_efs" {
 
 resource "aws_efs_mount_target" "mount_target" {
   count              = var.subnets_count
-  # vpc_subnets        = tolist(data.aws_subnet_ids.subnet.ids)[count.index]
-  subnet_id      = var.vpc_subnets.id[count.index]
+  subnet_id      = var.vpc_subnets[count.index]
   file_system_id = aws_efs_file_system.eks_efs.id
   security_groups = [aws_security_group.efs_mount_sg.id]
 }

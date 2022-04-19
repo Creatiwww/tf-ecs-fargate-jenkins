@@ -30,7 +30,8 @@ resource "aws_eks_cluster" "aws_eks" {
   role_arn = aws_iam_role.eks_cluster.arn
 
   vpc_config {
-    subnet_ids = [for s in var.vpc_subnets : s.id]
+    # subnet_ids = [for s in var.vpc_subnets : s.id]
+    subnet_ids = var.vpc_subnets
   }
 
   tags = {
@@ -80,7 +81,8 @@ resource "aws_eks_node_group" "node" {
   cluster_name    = aws_eks_cluster.aws_eks.name
   node_group_name = "node_jenkins"
   node_role_arn   = aws_iam_role.eks_nodes.arn
-  subnet_ids      = [for s in var.vpc_subnets : s.id]
+  # subnet_ids      = [for s in var.vpc_subnets : s.id]
+  subnet_ids  = var.vpc_subnets
   instance_types  = var.instance_types
 
   scaling_config {
