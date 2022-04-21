@@ -27,6 +27,10 @@ module "efs" {
   subnets_count      = var.subnets_count
 }
 
+output "access_point_id" {
+  value = module.efs.aws_efs_access_point_id
+}
+
 module "eks_cluster" {
   source             = "../../modules/eks"
   # count              = var.subnets_count

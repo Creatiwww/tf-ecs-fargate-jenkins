@@ -1,0 +1,5 @@
+apiVersion: v2
+name: my_ingress
+description: Ingress controller based on NGINX
+type: application
+version: 0.1.0
