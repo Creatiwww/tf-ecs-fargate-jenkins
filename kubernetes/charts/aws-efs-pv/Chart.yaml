@@ -1,0 +1,5 @@
+apiVersion: v2
+name: efc_pv
+description: PV based on AWS EFS
+type: application
+version: 0.1.0

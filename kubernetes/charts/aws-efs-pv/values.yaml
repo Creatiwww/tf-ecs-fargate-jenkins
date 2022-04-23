@@ -1,0 +1,2 @@
+storageClassName: efs-sc
+volumeHandle: fs-076b232991871e1f0::fsap-03f1f5d2898020fa9

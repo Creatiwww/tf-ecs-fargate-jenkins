@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.name }}-deployment
+  name: {{ .Release.Name }}-deployment
   namespace: nginx-ingress
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.name }}
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Release.name }}
+        app: {{ .Release.Name }}
      #annotations:
        #prometheus.io/scrape: "true"
        #prometheus.io/port: "9113"
