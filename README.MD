@@ -1,27 +1,27 @@
-# Installation of Jenkins on AWS EKS cluster with Terraform and Helm
+# Jenkins on AWS EKS cluster with Terraform and Helm
 
 ## How to run:
 
-# deploy AWS infra with Terraform
+#### deploy AWS infra with Terraform
 ```
 $ cd tf-eks-jenkins/tf/environments/playground
 $ terraform init
 $ terraform apply
 ```
 
-# configure kubectl context with AWS EKS
+#### configure kubectl context with AWS EKS
 ```
 $ aws eks update-kubeconfig --name eks_cluster
 ```
 
-# install Ingress on created cluster
+#### install Ingress on created cluster
 ```
 (https://aws.amazon.com/premiumsupport/knowledge-center/eks-access-kubernetes-services/)
 (https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/)
 $ helm install helm/charts/nginx-ingress my_ingress
 ```
 
-# configure PV and PVC
+#### configure PV and PVC
 ```
 (https://aws.amazon.com/blogs/storage/deploying-jenkins-on-amazon-eks-with-amazon-efs/)
 $ kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
@@ -29,7 +29,7 @@ $ kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kuberne
 $ helm install pv-pvc helm/charts/aws-efs-pv
 ```
 
-# install Jenkins
+#### install Jenkins
 ```
 $ helm repo add jenkins https://charts.jenkins.io
 $ helm repo update
@@ -43,7 +43,7 @@ $ printf $(kubectl get secret jenkins -o jsonpath="{.data.jenkins-admin-password
 
 ## Prerequisites:
 
-# install HELM
+#### install HELM
 ```
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 $ chmod 700 get_helm.sh
